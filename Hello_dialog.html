@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Диалог между двама човека</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f4f8;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px;
+    }
+
+    .avatar-container {
+      display: flex;
+      gap: 50px;
+      margin-bottom: 30px;
+    }
+
+    .avatar {
+      font-size: 60px;
+      cursor: pointer;
+      transition: transform 0.1s;
+    }
+
+    .avatar:hover {
+      transform: scale(1.1);
+    }
+
+    .dialog-box {
+      width: 80%;
+      max-width: 500px;
+      min-height: 100px;
+      padding: 20px;
+      border-radius: 12px;
+      background-color: white;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
+      font-size: 20px;
+    }
+  </style>
+</head>
+<body>
+
+   <h2>Кликни с мишката върху първото човече<br></h2>
+  <h2>След това върху второто, и повтори до края</h2>
+  
+  <div class="avatar-container">
+    <div id="avatarA" class="avatar" title="Първо човече">😊</div>
+    <div id="avatarB" class="avatar" title="Второ човече">😎</div>
+  </div>
+
+  <div id="dialog" class="dialog-box">Натисни първото човече...</div>
+
+  <script>
+    const dialog = document.getElementById('dialog');
+
+    // Conversation in [speaker, text] pairs
+    const conversation = [
+      ["A", "Hello!"],
+      ["B", "Hi!"],
+      ["A", "How are you?"],
+      ["B", "I'm fine, thank you!"],
+      ["A", "What is your name?"],
+      ["B", "My name is Alex."],
+      ["A", "How old are you?"],
+      ["B", "I'm 10 years old."],
+      ["A", "Nice to meet you!"],
+      ["B", "Nice to meet you too!"]
+    ];
+
+    let currentIndex = -1;
+
+    function showNext(speaker) {
+      if (currentIndex >= conversation.length - 1) {
+        dialog.textContent = "Край. Рестартирай страницата, за да видиш разговора отново.";
+        return;
+      }
+
+      // Advance to next line that matches the clicked speaker
+      do {
+        currentIndex++;
+      } while (currentIndex < conversation.length && conversation[currentIndex][0] !== speaker);
+
+      if (currentIndex < conversation.length) {
+        dialog.textContent = conversation[currentIndex][1];
+      } else {
+        dialog.textContent = "Waiting for the other person...";
+      }
+    }
+
+    document.getElementById('avatarA').addEventListener('click', () => showNext("A"));
+    document.getElementById('avatarB').addEventListener('click', () => showNext("B"));
+  </script>
+
+</body>
+</html>
